@@ -33,7 +33,7 @@ namespace Cinema
                 }
             Console.WriteLine("NOTE: 0 = occupied");
             }
-            int[] GetIntArray(int num) //rozdělí zadaný sedadlo na jednotlivé čísla pro získání x,y polohy v 2d poli 
+            int[] GetIntArray(int num) //rozdělí zadané sedadlo na jednotlivé čísla pro získání x,y polohy v 2d poli 
             {
                 List<int> listOfInts = new List<int>();
                 while (num > 0)
@@ -46,32 +46,48 @@ namespace Cinema
             }
             void Occupied()// změní hodnotu obsazeného místa v poli na 1
             {
-
-                for (int i = 0; i < a.Length; i++)
+                List<int> seats = new List<int>();
+                for (int i = 0; i < 100; i++)
                 {
                     Console.WriteLine("Choose seat:");
                     string snumber;
                     snumber = Console.ReadLine();
                     int number = int.Parse(snumber);
-                    if (number > 9)
+                    if (number <= 50 && number > 0)
                     {
-                        int[] arr = GetIntArray(number);
-                        if (arr[1] == 0)
+                        seats.Add(number);
+                        if (number > 9)
                         {
-                            arr[1] = 9;
-                            a.SetValue(0, arr[0]-1, arr[1]);
+                            int[] arr = GetIntArray(number);
+                            if (arr[1] == 0)
+                            {
+                                arr[1] = 9;
+                                a.SetValue(0, arr[0] - 1, arr[1]);
+                            }
+                            else
+                            {
+                                a.SetValue(0, arr[0], arr[1] - 1);
+                            }
                         }
                         else
                         {
-                            a.SetValue(0, arr[0], arr[1] - 1);
+                            a.SetValue(0, 0, number - 1);
                         }
+                        WriteTable();
+                        Console.Write("Occupied seats:");
+                        foreach (var item in seats)
+                        {
+                            Console.Write(item);
+                            Console.Write(",");
+                        }
+                        Console.WriteLine();
                     }
                     else
                     {
-                        a.SetValue(0, 0, number-1);
+                        Console.WriteLine("Choose another seat");
                     }
-                    WriteTable();
                 }
+                    
             }
             WriteTable();
             Occupied();
